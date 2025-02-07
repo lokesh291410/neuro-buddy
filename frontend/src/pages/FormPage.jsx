@@ -50,13 +50,18 @@ const FormPage = () => {
     if (!detecting && modelsLoaded) {
       try {
         const stream = await navigator.mediaDevices.getUserMedia({
-          video: { width: 320, height: 240 },
+          video: {
+            width: { ideal: 640 },
+            height: { ideal: 480 },
+            facingMode: "user",
+          },
         });
 
         if (videoRef.current) {
           videoRef.current.srcObject = stream;
           streamRef.current = stream;
 
+          // Wait for video to be ready
           await new Promise((resolve) => {
             videoRef.current.onloadedmetadata = () => {
               videoRef.current.play();
@@ -64,6 +69,7 @@ const FormPage = () => {
             };
           });
 
+          // Set canvas dimensions after video is loaded
           if (canvasRef.current) {
             canvasRef.current.width = videoRef.current.videoWidth;
             canvasRef.current.height = videoRef.current.videoHeight;
@@ -256,22 +262,31 @@ const FormPage = () => {
               <div className="flex flex-col md:flex-row gap-6 items-center">
                 {/* Camera display with improved styling */}
                 {showCamera && (
-                  <div className="relative w-full md:w-1/2 aspect-video bg-black rounded-xl overflow-hidden shadow-lg">
+                  <div className="relative w-full md:w-1/2 h-[300px] bg-black rounded-xl overflow-hidden shadow-lg">
                     <video
                       ref={videoRef}
                       autoPlay
                       playsInline
                       muted
-                      className="absolute inset-0 w-full h-full object-cover transform -scale-x-100"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        objectFit: "cover",
+                      }}
+                      className="absolute inset-0 transform -scale-x-100"
                     />
                     <canvas
                       ref={canvasRef}
-                      className="absolute inset-0 w-full h-full"
+                      style={{
+                        width: "100%",
+                        height: "100%",
+                        position: "absolute",
+                      }}
+                      className="absolute inset-0"
                     />
                   </div>
                 )}
 
-                {/* Emotion result display */}
                 <div className="w-full md:w-1/2">
                   <label className="block text-sm font-semibold text-blue-900 mb-2">
                     Detected Emotion

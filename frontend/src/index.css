@@ -1,5 +1,9 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 @keyframes tilt {
   0%,
   50%,
@@ -16,4 +20,58 @@
 
 .animate-tilt {
   animation: tilt 10s infinite linear;
+}
+
+.markdown-body {
+  @apply text-gray-100;
+}
+
+.markdown-body h1 {
+  @apply text-3xl font-bold mb-6 text-blue-400;
+}
+
+.markdown-body h2 {
+  @apply text-2xl font-semibold mb-4 mt-8 text-blue-300;
+}
+
+.markdown-body p {
+  @apply mb-4 leading-relaxed;
+}
+
+.markdown-body ul {
+  @apply list-disc list-inside mb-4 ml-4;
+}
+
+.markdown-body li {
+  @apply mb-2;
+}
+
+.markdown-body strong {
+  @apply text-blue-300;
+}
+
+.prose-invert {
+  --tw-prose-body: theme("colors.gray.300");
+  --tw-prose-headings: theme("colors.white");
+  --tw-prose-links: theme("colors.blue.400");
+  --tw-prose-bold: theme("colors.white");
+  --tw-prose-quotes: theme("colors.gray.100");
+  --tw-prose-quote-borders: theme("colors.gray.700");
+  --tw-prose-counters: theme("colors.gray.400");
+  --tw-prose-bullets: theme("colors.gray.600");
+  --tw-prose-hr: theme("colors.gray.800");
+  --tw-prose-th-borders: theme("colors.gray.700");
+  --tw-prose-td-borders: theme("colors.gray.700");
+}
+
+@media print {
+  body {
+    background: white;
+    color: black;
+  }
+
+  .prose-invert {
+    --tw-prose-body: theme("colors.gray.900");
+    --tw-prose-headings: theme("colors.gray.900");
+  }
 }
